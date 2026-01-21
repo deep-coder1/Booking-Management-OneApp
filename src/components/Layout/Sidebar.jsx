@@ -13,8 +13,6 @@ import BarChartIcon from '@mui/icons-material/BarChart'; // Reports
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Locations
 import LogoDevIcon from '@mui/icons-material/LogoDev'; // Placeholder for Logo
 
-const drawerWidth = 260;
-
 const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
     { text: 'Products', icon: <LayersIcon />, path: '/products' },
@@ -26,25 +24,18 @@ const menuItems = [
     { text: 'Locations', icon: <LocationOnIcon />, path: '/locations' },
 ];
 
-const Sidebar = () => {
-    return (
-        <Drawer
-            variant="permanent"
-            sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                [`& .MuiDrawer-paper`]: {
-                    width: drawerWidth,
-                    boxSizing: 'border-box',
-                    borderRight: 'none',
-                    backgroundColor: '#fff',
-                    boxShadow: '4px 0 24px rgba(0,0,0,0.02)'
-                },
-            }}
-        >
-            <Toolbar sx={{ display: 'flex', alignItems: 'center', px: 3, gap: 1 }}>
-                <LogoDevIcon sx={{ color: '#4f46e5', fontSize: 32 }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#4f46e5' }}>
+const Sidebar = ({ mobileOpen, handleDrawerTransitionEnd, handleDrawerClose, drawerWidth }) => {
+    const drawerContent = (
+        <div>
+            <Toolbar sx={{ display: 'flex', alignItems: 'center', px: 3, gap: 1.5, minHeight: '80px !important' }}>
+                <Box sx={{
+                    width: 40, height: 40, bgcolor: '#4f46e5', borderRadius: 1.5,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(79, 70, 229, 0.3)'
+                }}>
+                    <LogoDevIcon sx={{ color: '#fff', fontSize: 28 }} />
+                </Box>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: '#111827', letterSpacing: '-0.5px' }}>
                     LOGO
                 </Typography>
             </Toolbar>
@@ -56,7 +47,7 @@ const Sidebar = () => {
                                 component={NavLink}
                                 to={item.path}
                                 style={({ isActive }) => ({
-                                    backgroundColor: isActive ? '#5c6bf1' : 'transparent', // Custom Blue/Purple
+                                    backgroundColor: isActive ? '#5c6bf1' : 'transparent',
                                     color: isActive ? '#fff' : '#6b7280',
                                     borderRadius: '8px',
                                 })}
@@ -85,7 +76,50 @@ const Sidebar = () => {
                     ))}
                 </List>
             </Box>
-        </Drawer>
+        </div>
+    );
+
+    return (
+        <Box
+            component="nav"
+            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            aria-label="mailbox folders"
+        >
+            {/* Mobile Drawer */}
+            <Drawer
+                variant="temporary"
+                open={mobileOpen}
+                onTransitionEnd={handleDrawerTransitionEnd}
+                onClose={handleDrawerClose}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                {drawerContent}
+            </Drawer>
+
+            {/* Desktop Drawer */}
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    '& .MuiDrawer-paper': {
+                        boxSizing: 'border-box',
+                        width: drawerWidth,
+                        borderRight: 'none',
+                        backgroundColor: '#fff',
+                        boxShadow: '4px 0 24px rgba(0,0,0,0.02)'
+                    },
+                }}
+                open
+            >
+                {drawerContent}
+            </Drawer>
+        </Box>
     );
 };
 

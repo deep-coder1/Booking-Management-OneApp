@@ -3,10 +3,9 @@ import { AppBar, Toolbar, Box, Avatar, IconButton, Badge } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const drawerWidth = 260;
-
-const Topbar = () => {
+const Topbar = ({ handleDrawerToggle, drawerWidth }) => {
     const { user } = useAuth();
 
     return (
@@ -21,6 +20,16 @@ const Topbar = () => {
             }}
         >
             <Toolbar>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    sx={{ mr: 2, display: { sm: 'none' } }}
+                >
+                    <MenuIcon />
+                </IconButton>
+
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -34,7 +43,7 @@ const Topbar = () => {
                     </IconButton>
                     <Avatar
                         sx={{ bgcolor: '#4f46e5', width: 32, height: 32 }}
-                        src={user?.avatar} // Assuming user object might have this
+                        src={user?.avatar}
                     >
                         {user?.name ? user.name[0].toUpperCase() : 'A'}
                     </Avatar>
