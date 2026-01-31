@@ -4,11 +4,16 @@ import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './components/Layout/MainLayout';
 
-// Placeholders
+// Import all pages
 import Dashboard from './pages/Dashboard';
-const Users = () => <div className="p-4"><h1 className="text-2xl font-bold">User Management</h1><p>Manage system users.</p></div>;
-const Bookings = () => <div className="p-4"><h1 className="text-2xl font-bold">Booking Management</h1><p>View and manage bookings.</p></div>;
-const Settings = () => <div className="p-4"><h1 className="text-2xl font-bold">Settings</h1><p>Application settings.</p></div>;
+import Products from './pages/Products';
+import InventoryControl from './pages/InventoryControl';
+import Suppliers from './pages/Suppliers';
+import PurchasesSales from './pages/PurchasesSales';
+import LowStockAlerts from './pages/LowStockAlerts';
+import Reports from './pages/Reports';
+import Locations from './pages/Locations';
+
 const Unauthorized = () => <div className="p-4 text-red-500"><h1>Unauthorized Access</h1></div>;
 
 function App() {
@@ -21,9 +26,13 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/inventory-control" element={<InventoryControl />} />
+          <Route path="/suppliers" element={<Suppliers />} />
+          <Route path="/purchases-sales" element={<PurchasesSales />} />
+          <Route path="/low-stock-alerts" element={<LowStockAlerts />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/locations" element={<Locations />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Route>
