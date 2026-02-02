@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import api from '../api';
+import api, { loginUser } from '../api';
 import Swal from 'sweetalert2';
-import Logo from '../assets/OneAppLogo.png'; // Make sure this path is correct
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Logo from '../assets/OneAppLogo.png';
 // If using png, we need to import it. Or just use a string path if in public.
 // Ideally, import works if handled by Vite.
 
@@ -11,6 +12,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -18,28 +20,10 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            // MOCK LOGIN FOR DEMO
-            if (email === 'admin@gmail.com' && password === 'admin') {
-                // Wait 1s to simulate network
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                const mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjk5OTk5OTk5OTksImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwibmFtZSI6IkFkbWluIFVzZXIifQ==.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-                login(mockToken);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login Successful',
-                    text: `Welcome back, Admin! (Mock Mode)`,
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-                navigate('/dashboard');
-                return;
-            }
-
             // API call
-            // Replace '/auth/login' with actual endpoint
-            const response = await api.post('/auth/login', { email, password });
+            const response = await loginUser({ vendorEmail: email, vendorPassword: password });
 
-            const { token } = response.data; // Adjust based on actual API response structure
+            const { token } = response;
 
             if (token) {
                 login(token);
@@ -96,20 +80,31 @@ const Login = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div>
+                        <div className="relative">
                             <label htmlFor="password" className="sr-only">
                                 Password
                             </label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 required
-                                className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+                                className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2 pr-10"
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-0 flex items-center pr-3 z-20"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <VisibilityOff className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                ) : (
+                                    <Visibility className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                )}
+                            </button>
                         </div>
                     </div>
 

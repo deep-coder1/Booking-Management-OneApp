@@ -30,4 +30,15 @@ api.interceptors.response.use(
     }
 );
 
+
+// Login API call
+export const loginUser = async (credentials) => {
+    try {
+        const response = await axios.post('https://r2fjv162gj.execute-api.ap-south-1.amazonaws.com/prod/vendor_login', credentials);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export default api;
