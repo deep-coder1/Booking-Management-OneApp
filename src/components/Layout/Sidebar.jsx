@@ -12,6 +12,7 @@ import WarningIcon from '@mui/icons-material/Warning'; // Low Stock Alerts
 import BarChartIcon from '@mui/icons-material/BarChart'; // Reports
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Locations
 import LogoDevIcon from '@mui/icons-material/LogoDev'; // Placeholder for Logo
+import PrintIcon from '@mui/icons-material/Print';
 
 const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
@@ -22,6 +23,7 @@ const menuItems = [
     { text: 'Low Stock Alerts', icon: <WarningIcon />, path: '/low-stock-alerts' },
     { text: 'Reports', icon: <BarChartIcon />, path: '/reports' },
     { text: 'Locations', icon: <LocationOnIcon />, path: '/locations' },
+    { text: 'Billing', icon: <PrintIcon />, path: '/billing' },
 ];
 
 const Sidebar = ({ mobileOpen, handleDrawerTransitionEnd, handleDrawerClose, drawerWidth }) => {
