@@ -42,3 +42,51 @@ export const loginUser = async (credentials) => {
 };
 
 export default api;
+
+// Product APIs
+
+// Get all products
+export const getProducts = async () => {
+    try {
+        const response = await axios.get('https://r2fjv162gj.execute-api.ap-south-1.amazonaws.com/prod/billing_section_get_product?query=all');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Create a new product
+export const createProduct = async (productData) => {
+    try {
+        const response = await axios.post('https://r2fjv162gj.execute-api.ap-south-1.amazonaws.com/prod/billing_section_create_product', productData);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Update an existing product
+export const updateProduct = async (productData) => {
+    try {
+        const response = await axios.put('https://r2fjv162gj.execute-api.ap-south-1.amazonaws.com/prod/billing_section_edit_product', productData);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Delete a product
+export const deleteProduct = async (productId) => {
+    try {
+        // Using common pattern for delete with body, or just query usage if backend supports it.
+        // User schema implies body: { "productId": "..." }
+        const response = await axios.request({
+            method: 'DELETE',
+            url: 'https://r2fjv162gj.execute-api.ap-south-1.amazonaws.com/prod/billing_section_delete_product',
+            data: { productId }
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
